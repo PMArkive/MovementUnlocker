@@ -29,12 +29,12 @@
 MovementUnlocker g_MovementUnlocker;
 
 #ifdef _WIN32
-const unsigned char *pPatchSignature = (unsigned char *)"\x0F\x86\xB8\x2A\x2A\x2A\xF3\x0F\x58\xD4";
+const unsigned char *pPatchSignature = (unsigned char *)"\x0F\x86\xB7\x2A\x2A\x2A\xF3\x0F\x58\xD4";
 const char *pPatchPattern = "xxx???xxxx";
 int PatchLen = 6;
 #elif __linux__
-const unsigned char * pPatchSignature = (unsigned char *)"\x0F\x87\x2A\x2A\x2A\x2A\xF3\x0F\x10\x3D\x2A\x2A\x2A\x2A\xF3\x0F\x11\xBD";
-const char* pPatchPattern = "xx????xxxx????xxxx";
+const unsigned char * pPatchSignature = (unsigned char *)"\x0F\x87\x2A\x2A\x2A\x2A\xF3\x0F\x10\x35\x2A\x2A\x2A\x2A\xF3\x0F\x11\xB5\x2A\x2A\x2A\x2A\x48\x89\xDE";
+const char* pPatchPattern = "xx????xxxx????xxxx????xxx";
 int PatchLen = 6;
 #endif
 
@@ -113,7 +113,7 @@ bool MovementUnlocker::Load(PluginId id, ISmmAPI *ismm, char *error, size_t maxl
 	SourceHook::SetMemAccess((void*)pPatchAddress, PatchLen, SH_MEM_READ | SH_MEM_WRITE | SH_MEM_EXEC);
 
 #ifdef _WIN32
-	const char* patchBytes[] = {"\xE9", "\xB9", "\x00", "\x00", "\x00", "\x90"};
+	const char* patchBytes[] = {"\xE9", "\xB8", "\x00", "\x00", "\x00", "\x90"};
 
 	for (int i = 0; i < PatchLen; i++)
 		*(unsigned char*)(pPatchAddress + i) = ((unsigned char*)patchBytes[i])[0];
@@ -154,7 +154,7 @@ const char *MovementUnlocker::GetLicense()
 
 const char *MovementUnlocker::GetVersion()
 {
-	return "1.6";
+	return "1.7";
 }
 
 const char *MovementUnlocker::GetDate()
